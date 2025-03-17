@@ -4,13 +4,9 @@ import Stripe from "stripe";
 import { getStudentByClerkId } from "@/sanity/lib/student/getStudentByClerkId";
 import { createEnrollment } from "@/sanity/lib/student/createEnrollment";
 import stripe from "@/lib/stripe";
+import { Student } from "@/sanity.types";
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
-
-interface Student {
-    _id: string;
-    name: string;
-  }
 
 export async function POST(req: Request) {
   try {
@@ -36,35 +32,42 @@ export async function POST(req: Request) {
       });
     }
 
-    if (event.type === "checkout.session.completed") {
-      const session = event.data.object as Stripe.Checkout.Session;
+    // if (event.type === "checkout.session.completed") {
+    //   const session = event.data.object as Stripe.Checkout.Session;
 
-      const courseId = session.metadata?.courseId;
-      const userId = session.metadata?.userId;
+    switch (event.type) {
+        case "checkout.session.completed":
+            const session = event.data.object as Stripe.Checkout.Session;
 
-      if (!courseId || !userId) {
-        return new NextResponse("Missing metadata", { status: 400 });
-      }
+            const courseId = session.metadata?.courseId;
+            const userId = session.metadata?.userId;
 
-      const student = await getStudentByClerkId(userId);
+            if (!courseId || !userId) {
+                return new NextResponse("Missing metadata", { status: 400 });
+              }
 
-      if (!student) {
-        return new NextResponse("Student not found", { status: 400 });
-      }
+              const student = await getStudentByClerkId(userId);
+            
 
-      await createEnrollment({
-        studentId: student._id,
-        courseId,
-        paymentId: session.id,
-        amount: session.amount_total! / 100,
-      });
+              if (!student) {
+                return new NextResponse("Student not found", { status: 400 });
+              }
 
-      return new NextResponse(null, { status: 200 });
+              await createEnrollment({
+                studentId: student._id,
+                courseId,
+                paymentId: session.id,
+                amount: session.amount_total! / 100,
+              });
+
+              return new NextResponse(null, { status: 200 });
+    }
+    return new NextResponse(null, { status: 200 });
+     
     }
 
-    return new NextResponse(null, { status: 200 });
-  } catch (error) {
-    console.error("Error in webhook handler:", error);
-    return new NextResponse("Webhook handler failed", { status: 500 });
+    catch (error) {
+        console.error("Error in webhook handler:", error);
+        return new NextResponse("Webhook handler failed", { status: 500 });    
   }
-}
+  }
