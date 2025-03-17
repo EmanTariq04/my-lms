@@ -7,6 +7,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "cdn.sanity.io",
       },
+      {
+        hostname: "img.clerk.com",
+        protocol: "https",
+      }
     ],
   },
 };

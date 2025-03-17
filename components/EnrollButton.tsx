@@ -35,7 +35,6 @@ function EnrollButton({
     });
   };
 
-  // Show loading state while checking user is loading
   if (!isUserLoaded || isPending) {
     return (
       <div className="w-full h-12 rounded-lg bg-gray-100 flex items-center justify-center">
@@ -44,7 +43,6 @@ function EnrollButton({
     );
   }
 
-  // Show enrolled state with link to course
   if (isEnrolled) {
     return (
       <Link
@@ -58,7 +56,6 @@ function EnrollButton({
     );
   }
 
-  // Show enroll button only when we're sure user is not enrolled
   return (
     <button
       className={`w-full rounded-lg px-6 py-3 font-medium transition-all duration-300 ease-in-out relative h-12
