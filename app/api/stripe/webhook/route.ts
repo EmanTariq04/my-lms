@@ -4,7 +4,6 @@ import Stripe from "stripe";
 import { getStudentByClerkId } from "@/sanity/lib/student/getStudentByClerkId";
 import { createEnrollment } from "@/sanity/lib/student/createEnrollment";
 import stripe from "@/lib/stripe";
-import { Student } from "@/sanity.types";
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
@@ -46,15 +45,20 @@ export async function POST(req: Request) {
                 return new NextResponse("Missing metadata", { status: 400 });
               }
 
-              const student = await getStudentByClerkId(userId);
-            
-
-              if (!student) {
+              // const student = await getStudentByClerkId(userId);
+              const studentData = await getStudentByClerkId(userId);
+              if (!studentData || !studentData.data) {
                 return new NextResponse("Student not found", { status: 400 });
               }
+            
+
+              // if (!student) {
+              //   return new NextResponse("Student not found", { status: 400 });
+              // }
 
               await createEnrollment({
-                studentId: student._id,
+                // studentId: student._id,
+                studentId: studentData.data._id,
                 courseId,
                 paymentId: session.id,
                 amount: session.amount_total! / 100,
@@ -67,7 +71,7 @@ export async function POST(req: Request) {
     }
 
     catch (error) {
-        console.error("Error in webhook handler:", error);
-        return new NextResponse("Webhook handler failed", { status: 500 });    
+        console.error("Error in POST:", error);
+        return new NextResponse(`Error in POST: ${error}`, { status: 500 });    
   }
   }
