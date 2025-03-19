@@ -5,6 +5,17 @@ import { usePathname } from "next/navigation"
 import { useSidebar } from "./providers/SidebarProvider"
 import { useState, useEffect } from "react"
 import { calculateCourseProgress } from "@/lib/courseProgress"
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+  } from "@/components/ui/tooltip";
+  import { Button } from "./ui/button"
+  import { Library } from "lucide-react"
+  import Link from "next/link"
+  import { ArrowLeft } from "lucide-react"
+  import DarkModeToggle from "./DarkModeToggle"
 
 interface SidebarProps {
     course: GetCourseByIdQueryResult;
