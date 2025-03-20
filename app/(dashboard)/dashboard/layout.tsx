@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { currentUser } from "@clerk/nextjs/server";
 import getCourseById from "@/sanity/lib/courses/getCourseById";
-import { Sidebar } from "@/components/dashboard/Sidebar";
+import { Sidebar } from "@/components/Sidebar";
 import { getCourseProgress } from "@/sanity/lib/lessons/getCourseProgress";
 import { checkCourseAccess } from "@/lib/auth";
 
