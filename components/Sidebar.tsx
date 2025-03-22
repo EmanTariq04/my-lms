@@ -1,27 +1,39 @@
 "use client";
-
 import {
-  GetCompletionsQueryResult,
-  GetCourseByIdQueryResult,
-} from "@/sanity.types";
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Button } from "@/components/ui/button";
+import {
+  ArrowLeft,
+  Library,
+  ChevronRight,
+  PlayCircle,
+  X,
+  Check,
+} from "lucide-react";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
+import {
+  GetCourseByIdQueryResult,
+  GetCompletionsQueryResult,
+  Module,
+} from "@/sanity.types";
 import { useSidebar } from "./providers/SidebarProvider";
-import { useState, useEffect } from "react";
-import { calculateCourseProgress } from "@/lib/courseProgress";
+import { useEffect, useState } from "react";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Button } from "./ui/button";
-import { Library } from "lucide-react";
-import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
 import DarkModeToggle from "./DarkModeToggle";
-import { CourseProgress } from "./CourseProgress";
-import { ChevronRight } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { CourseProgress } from "@/components/CourseProgress";
+import { calculateCourseProgress } from "@/lib/courseProgress";
 
 interface SidebarProps {
   course: GetCourseByIdQueryResult;
@@ -49,6 +61,7 @@ export function Sidebar({ course, completedLessons = [] }: SidebarProps) {
       }
     }
   }, [pathname, course, openModules]);
+
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -57,10 +70,16 @@ export function Sidebar({ course, completedLessons = [] }: SidebarProps) {
     return null;
   }
 
+  // const progress = calculateCourseProgress(
+  //   course.modules as unknown as Module[],
+  //   completedLessons
+  // );
+
   const progress = calculateCourseProgress(
-    course.modules as unknown as Module[],
+    course.modules as Module[] || [], // Ensure it's an array
     completedLessons
   );
+  
 
   const SidebarContent = () => (
     <div className="h-full flex flex-col">
@@ -171,7 +190,7 @@ export function Sidebar({ course, completedLessons = [] }: SidebarProps) {
                             className={cn(
                               "text-sm line-clamp-2 min-w-0",
                               isCompleted &&
-                                "text-muted-foreground line-through decoration-green-500/50"
+                              "text-muted-foreground line-through decoration-green-500/50"
                             )}
                           >
                             {lesson.title}
