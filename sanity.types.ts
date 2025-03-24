@@ -675,7 +675,7 @@ export type ProgressQueryResult = {
 
 // Source: sanity/lib/courses/getCourses.ts
 // Variable: getCoursesQuery
-// Query: *[_type == "course"] {        ...,        "slug": slug.current,        "category": category->{...},        "instructor": instructor->{...}    }
+// Query: *[_type == "course"] {    ...,    "slug": slug.current,    "category": category->{...},    "instructor": instructor->{...}  }
 export type GetCoursesQueryResult = Array<{
   _id: string;
   _type: "course";
@@ -1081,7 +1081,7 @@ declare module "@sanity/client" {
     "*[_type == \"course\" && _id == $id][0] {\n      ..., \n      \"category\": category->{...}, \n      \"instructor\": instructor->{...},\n      \"modules\": modules[]-> { \n        \"lessons\": lessons[]-> {...} \n      }\n    }": GetCourseByIdQueryResult;
     "*[_type == \"course\" && slug.current == $slug][0] {\n      ...,\n      \"category\": category->{...},\n      \"instructor\": instructor->{...},\n      \"modules\": modules[]-> {\n        ...,\n        \"lessons\": lessons[]-> {...}\n      }\n    }": GetCourseBySlugQueryResult;
     "{\n    \"completedLessons\": *[_type == \"lessonCompletion\" && student._ref == $studentId && course._ref == $courseId] {\n      ...,\n      \"lesson\": lesson->{...},\n      \"module\": module->{...}\n    },\n    \"course\": *[_type == \"course\" && _id == $courseId][0] {\n      ...,\n      \"modules\": modules[]-> {\n        ...,\n        \"lessons\": lessons[]-> {...}\n      }\n    }\n  }": ProgressQueryResult | GetCompletionsQueryResult;
-    "*[_type == \"course\"] {\n        ...,\n        \"slug\": slug.current,\n        \"category\": category->{...},\n        \"instructor\": instructor->{...}\n    }": GetCoursesQueryResult;
+    "*[_type == \"course\"] {\n    ...,\n    \"slug\": slug.current,\n    \"category\": category->{...},\n    \"instructor\": instructor->{...}\n  }": GetCoursesQueryResult;
     "\n        *[_type == \"student\" && clerkId == $clerkId][0] {\n            \"enrolledCourses\": *[_type == \"enrollment\" && student._ref == ^._id] {\n                ...,\n                \"course\": course->{\n                    ...,\n                    \"slug\": slug.current,\n                    \"category\": category->{...},\n                    \"instructor\": instructor->{...}\n                }\n            }\n        }": GetEnrolledCoursesQueryResult;
     "*[_type == \"course\" && (\n    title match $term + \"*\" ||\n    description match $term + \"*\" ||\n    category->name match $term + \"*\"\n  )] {\n    ...,\n    \"slug\": slug.current,\n    \"category\": category->{...},\n    \"instructor\": instructor->{...}\n  }": SearchQueryResult;
     "*[_type == \"student\" && clerkId == $clerkId][0]": GetStudentByClerkIdQueryResult;

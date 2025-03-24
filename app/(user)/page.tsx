@@ -1,5 +1,5 @@
 import Hero from "@/components/Hero";
-import CourseCard from "@/components/CourseCard";
+import { CourseCard } from "@/components/CourseCard";
 import { getCourses } from "@/sanity/lib/courses/getCourses";
 
 // export const dynamic = "force-static";

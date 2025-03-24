@@ -1,20 +1,27 @@
 "use client";
 
-import { GetCoursesQueryResult } from "@/sanity.types";
-import { urlFor } from "@/sanity/lib/image";
 import Image from "next/image";
 import Link from "next/link";
-import { Loader } from "./ui/Loader";
 import { BookOpen } from "lucide-react";
-import { CourseProgress } from "./CourseProgress";
+import { urlFor } from "@/sanity/lib/image";
+import { Loader } from "./Loader";
+import { CourseProgress } from "@/components/CourseProgress";
+import {
+  GetCoursesQueryResult,
+  GetEnrolledCoursesQueryResult,
+} from "@/sanity.types";
 
-interface CourseCardPages {
-  course: GetCoursesQueryResult[number];
+interface CourseCardProps {
+  course:
+  | GetCoursesQueryResult[number]
+  | NonNullable<
+    NonNullable<GetEnrolledCoursesQueryResult>["enrolledCourses"][number]["course"]
+  >;
   progress?: number;
   href: string;
 }
 
-function CourseCard({ course, progress, href }: CourseCardPages) {
+export function CourseCard({ course, progress, href }: CourseCardProps) {
   return (
     <Link
       href={href}
@@ -45,13 +52,12 @@ function CourseCard({ course, progress, href }: CourseCardPages) {
                 {course.price === 0
                   ? "Free"
                   : `$${course.price.toLocaleString("en-US", {
-                      minimumFractionDigits: 2,
-                    })}`}
+                    minimumFractionDigits: 2,
+                  })}`}
               </span>
             )}
           </div>
         </div>
-
         <div className="p-6 flex flex-col flex-1">
           <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors duration-300">
             {course.title}
@@ -98,5 +104,3 @@ function CourseCard({ course, progress, href }: CourseCardPages) {
     </Link>
   );
 }
-
-export default CourseCard;
