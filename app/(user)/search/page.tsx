@@ -1,17 +1,24 @@
 import { searchCourses } from "@/sanity/lib/courses/searchCourses";
+import { redirect } from "next/navigation";
+import { CourseCard } from "@/components/CourseCard";
 import { Search } from "lucide-react";
-import CourseCard from "@/components/CourseCard";
 
-interface SearchPageProps {
-    params: Promise<{
-        term: string;
-    }>
-}
+async function SearchPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const term = await (await searchParams).term;
 
-export default async function SearchPage({ params }: SearchPageProps) {
-    const {term} = await params;
-    const decodedTerm = decodeURIComponent(term);
-    const courses = await searchCourses(decodedTerm)
+
+  if (!term || typeof term !== "string") {
+    return redirect("/")
+  }
+
+  const decodedTerm = decodeURIComponent(term);
+
+  const courses = await searchCourses(decodedTerm)
+
 
   return (
     <div className="h-full pt-16">
@@ -49,3 +56,5 @@ export default async function SearchPage({ params }: SearchPageProps) {
     </div>
   );
 }
+
+export default SearchPage
