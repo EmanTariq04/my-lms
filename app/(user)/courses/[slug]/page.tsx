@@ -80,7 +80,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
 
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-    
+
           <div className="lg:col-span-2">
             <div className="bg-card rounded-lg p-6 mb-8 border border-border">
               <h2 className="text-2xl font-bold mb-4">Course Content</h2>
@@ -121,7 +121,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
             </div>
           </div>
 
-        
+
           <div>
             <div className="bg-card rounded-lg p-6 sticky top-4 border border-border">
               <h2 className="text-xl font-bold mb-4">Instructor</h2>
