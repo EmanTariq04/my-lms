@@ -2,7 +2,7 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { getStudentByClerkId } from "@/sanity/lib/student/getStudentByClerkId";
-import { createEnrollment } from "@/sanity/lib/student/createEnrollment";
+import { createEnrollment } from "@/sanity/lib/courses/createEnrollment";
 import stripe from "@/lib/stripe";
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
