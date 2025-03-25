@@ -2,7 +2,6 @@
 
 import stripe from "@/lib/stripe";
 import baseUrl from "@/lib/baseUrl";
-
 import { urlFor } from "@/sanity/lib/image";
 import getCourseById from "@/sanity/lib/courses/getCourseById";
 import { createStudentIfNotExists } from "@/sanity/lib/student/createStudentIfNotExists";
@@ -11,7 +10,6 @@ import { createEnrollment } from "@/sanity/lib/student/createEnrollment";
 
 export async function createStripeCheckout(courseId: string, userId: string) {
   try {
-    // 1. Query course details from Sanity
     const course = await getCourseById(courseId);
     const clerkUser = await (await clerkClient()).users.getUser(userId);
     const { emailAddresses, firstName, lastName, imageUrl } = clerkUser;
@@ -25,7 +23,6 @@ export async function createStripeCheckout(courseId: string, userId: string) {
       throw new Error("Course not found");
     }
 
-    // mid step - create a user in sanity if it doesn't exist
     const user = await createStudentIfNotExists({
       clerkId: userId,
       email: email || "",
