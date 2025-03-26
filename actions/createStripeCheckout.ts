@@ -58,7 +58,6 @@ export async function createStripeCheckout(courseId: string, userId: string) {
       throw new Error("Course data is incomplete");
     }
 
-    // 3. Create and configure Stripe Checkout Session with course details
     const session = await stripe.checkout.sessions.create({
       line_items: [
         {
@@ -83,7 +82,6 @@ export async function createStripeCheckout(courseId: string, userId: string) {
       },
     });
 
-    // 4. Return checkout session URL for client redirect
     return { url: session.url };
   } catch (error) {
     console.error("Error in createStripeCheckout:", error);
