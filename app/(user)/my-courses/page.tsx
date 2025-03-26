@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation'
 import { getCourseProgress } from '@/sanity/lib/courses/getCourseProgress'
 import Link from 'next/link'
 import { GraduationCap } from 'lucide-react'
-import CourseCard from '@/components/CourseCard'
+import { CourseCard } from '@/components/CourseCard'
 
 export default async function MyCoursesPage() {
     const user = await currentUser()
