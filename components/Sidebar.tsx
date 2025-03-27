@@ -34,6 +34,7 @@ import {
 import DarkModeToggle from "./DarkModeToggle";
 import { CourseProgress } from "@/components/CourseProgress";
 import { calculateCourseProgress } from "@/lib/courseProgress";
+import { Lesson } from "@/sanity.types";
 
 interface SidebarProps {
   course: GetCourseByIdQueryResult;
@@ -62,6 +63,21 @@ export function Sidebar({ course, completedLessons = [] }: SidebarProps) {
     }
   }, [pathname, course, openModules]);
 
+  // useEffect(() => {
+  //   if (pathname && course?.modules) {
+  //     const currentModuleId = course.modules.find((module) =>
+  //       (module.lessons as Lesson[])?.some(
+  //         (lesson) => pathname === `/dashboard/courses/${course._id}/lessons/${lesson._id}`
+  //       )
+  //     )?._id;
+  
+  //     if (currentModuleId && !openModules.includes(currentModuleId)) {
+  //       setOpenModules((prev) => [...prev, currentModuleId]);
+  //     }
+  //   }
+  // }, [pathname, course, openModules]);
+
+  
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -70,16 +86,10 @@ export function Sidebar({ course, completedLessons = [] }: SidebarProps) {
     return null;
   }
 
-  // const progress = calculateCourseProgress(
-  //   course.modules as unknown as Module[],
-  //   completedLessons
-  // );
-
   const progress = calculateCourseProgress(
-    course.modules as Module[] || [], // Ensure it's an array
+    course.modules as unknown as Module[],
     completedLessons
   );
-  
 
   const SidebarContent = () => (
     <div className="h-full flex flex-col">
@@ -190,7 +200,7 @@ export function Sidebar({ course, completedLessons = [] }: SidebarProps) {
                             className={cn(
                               "text-sm line-clamp-2 min-w-0",
                               isCompleted &&
-                              "text-muted-foreground line-through decoration-green-500/50"
+                                "text-muted-foreground line-through decoration-green-500/50"
                             )}
                           >
                             {lesson.title}

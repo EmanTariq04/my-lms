@@ -381,6 +381,8 @@ export type GetCourseByIdQueryResult = {
     color?: string;
   } | null;
   modules: Array<{
+    _id: string;
+    title?: string;
     lessons: Array<{
       _id: string;
       _type: "lesson";
