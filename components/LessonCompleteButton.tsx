@@ -4,9 +4,9 @@ import { CheckCircle, Loader2, XCircle } from "lucide-react";
 import { Button } from "./ui/button";
 import { useState, useEffect, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { completeLessonAction } from "@/app/actions/completeLessonAction";
-import { uncompleteLessonAction } from "@/app/actions/uncompleteLessonAction";
-import { getLessonCompletionStatusAction } from "@/app/actions/getLessonCompletionStatusAction";
+import { completeLessonAction } from "@/actions/completeLessonAction";
+import { uncompleteLessonAction } from "@/actions/uncompleteLessonAction";
+import { getLessonCompletionStatusAction } from "@/actions/getLessonCompletionStatusAction";
 import { cn } from "@/lib/utils";
 
 interface LessonCompleteButtonProps {
