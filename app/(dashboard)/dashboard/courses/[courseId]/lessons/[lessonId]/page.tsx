@@ -34,13 +34,13 @@ export default async function LessonPage({ params }: LessonPageProps) {
           )}
 
           <div className="space-y-8">
-            {/* Video Section */}
+            
             {lesson.videoUrl && <VideoPlayer url={lesson.videoUrl} />}
 
-            {/* Loom Embed Video if loomUrl is provided */}
+         
             {lesson.loomUrl && <LoomEmbed shareUrl={lesson.loomUrl} />}
 
-            {/* Lesson Content */}
+            
             {lesson.content && (
               <div>
                 <h2 className="text-xl font-semibold mb-4">Lesson Notes</h2>
